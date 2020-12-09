@@ -1,0 +1,30 @@
+package net.jcip.examples.buildingblocks;
+
+import java.util.concurrent.BlockingQueue;
+
+//Restoring the interrupted status so as not to swallow the interrupt
+public class TaskRunnable implements Runnable{
+	BlockingQueue<Task> queue;
+
+	public void run()
+	{
+		try
+		{
+			processTask(queue.take());
+		}
+		catch (InterruptedException e)
+		{
+			// restore interrupted status
+			Thread.currentThread().interrupt();
+		}
+	}
+
+	void processTask(Task task)
+	{
+		// Handle the task
+	}
+
+	interface Task
+	{
+	}
+}
